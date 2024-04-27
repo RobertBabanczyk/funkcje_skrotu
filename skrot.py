@@ -8,14 +8,14 @@ class Serwer:
 
     def dodaj_uzytkownika(self, nazwa_uzytkownika, haslo):
         sol = secrets.token_hex(16)
-        haslo_hash = hashlib.sha256((haslo + sol).encode()).hexdigest()
+        haslo_hash = hashlib.md5((haslo + sol).encode()).hexdigest()
         self.uzytkownicy[nazwa_uzytkownika] = {'haslo_hash': haslo_hash, 'sol': sol}
 
     def uwierzytelnij_uzytkownika(self, nazwa_uzytkownika, haslo):
         if nazwa_uzytkownika in self.uzytkownicy:
             zapisane_haslo_hash = self.uzytkownicy[nazwa_uzytkownika]['haslo_hash']
             sol = self.uzytkownicy[nazwa_uzytkownika]['sol']
-            if hashlib.sha256((haslo + sol).encode()).hexdigest() == zapisane_haslo_hash:
+            if hashlib.md5((haslo + sol).encode()).hexdigest() == zapisane_haslo_hash:
                 return True
         return False
 
